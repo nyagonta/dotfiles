@@ -11,7 +11,7 @@
 "   File: _gvimrc
 "   Version: 0.0
 "   Maintainer: nyagonta
-"   Last Change: 12-Feb-2015.
+"   Last Change: 21-Feb-2015.
 "   Note:
 "
 "---------------------------------------------------------------------------
@@ -20,17 +20,8 @@
 " fonts:{{{
 if has('win32')
   set guifont=Consolas:h9:cSHIFTJIS
-"  set guifont=Sauce_Code_Powerline:h9
-" こっちは日本語フォント
-"  set guifontwide=Ricty:h10
-"  set guifontwide=Osaka－等幅:h9
-  set linespace=1		    " 行間隔の設定
-  " 一部のUCS文字の幅を自動計測して決める
-  if has('kaoriya')
-    set ambiwidth=auto
-  endif
 elseif has('mac')
-  set guifont=Osaka－等幅:h14
+  set guifont=Osaka-Mono:h14
 elseif has('xfontset')
   " UNIX用 (xfontsetを使用)
   set guifontset=a14,r14,k14
@@ -49,6 +40,9 @@ set guioptions-=T " ツールバーを消す
 set guioptions-=l " 左側の縦スクロールバーを消す
 set guioptions-=L
 set cmdheight=1   " Kaoriya gvimrc の設定上書き用
+
+set linespace=1		    " 行間隔の設定
+set ambiwidth=double
 
 "set background=dark
 "colorscheme solarized

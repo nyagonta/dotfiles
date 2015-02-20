@@ -1,25 +1,25 @@
-"---------------------------------------------------------------------------
-"                                _
-"                               (_)
-"  _ __ ___    _   _    __   __  _   _ __ ___    _ __    ___
-" | '_ ` _ \  | | | |   \ \ / / | | | '_ ` _ \  | '__|  / __|
-" | | | | | | | |_| |    \ V /  | | | | | | | | | |    | (__
-" |_| |_| |_|  \__, |     \_/   |_| |_| |_| |_| |_|     \___|
-"               __/ |
-"              |___/
-"
-"   File: _vimrc
-"   Version: 0.0
-"   Maintainer: nyagonta
-"   Last Change: 13-Feb-2015.
-"   Note:
-"       * ctags:				<http://hp.vector.co.jp/authors/VA025040/>
-"       * cscope:				<http://cscope.sourceforge.net/>
-"								<http://code.google.com/p/cscope-win32/> (win32 binary)
-"       * MinGW:				<http://www.mingw.org/>
-"       * The Silver Searcher:	<https://github.com/kjk/the_silver_searcher>
-"
-"---------------------------------------------------------------------------
+""---------------------------------------------------------------------------
+""                                _
+""                               (_)
+""  _ __ ___    _   _    __   __  _   _ __ ___    _ __    ___
+"" | '_ ` _ \  | | | |   \ \ / / | | | '_ ` _ \  | '__|  / __|
+"" | | | | | | | |_| |    \ V /  | | | | | | | | | |    | (__
+"" |_| |_| |_|  \__, |     \_/   |_| |_| |_| |_| |_|     \___|
+""               __/ |
+""              |___/
+""
+""   File: _vimrc
+""   Version: 0.0
+""   Maintainer: nyagonta
+""   Last Change: 21-Feb-2015.
+""   Note:
+""       * ctags:				<http://hp.vector.co.jp/authors/VA025040/>
+""       * cscope:				<http://cscope.sourceforge.net/>
+""								<http://code.google.com/p/cscope-win32/> (win32 binary)
+""       * MinGW:				<http://www.mingw.org/>
+""       * The Silver Searcher:	<https://github.com/kjk/the_silver_searcher>
+""
+""---------------------------------------------------------------------------
 " Initialization: {{{
 " My autocmd group
 augroup MyAutoCmd
@@ -33,107 +33,58 @@ let s:is_linux = !s:is_win && !s:is_mac
 "}}}
 
 "---------------------------------------------------------------------------
-" Encoding:"{{{
-" https://github.com/daisuzu/dotvim/blob/master/.vimrc
+" Encoding  "{{{
+" https://github.com/kana/config/blob/master/vim/personal/dot.vimrc
 "
-" based on encode.vim
-" https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-utf8
-if !has('gui_macvim')
-	if !has('gui_running') && s:is_win
-		set termencoding=cp932
-		set encoding=cp932
-	elseif s:is_win
-		set termencoding=cp932
-		set encoding=utf-8
-	else
-		set encoding=utf-8
-	endif
+" To deal with Japanese language.
+if $ENV_WORKING ==# 'summer'
+  set encoding=japan
+else
+  set encoding=utf-8
+endif
 
-	"set default fileencodings
-	if &encoding == 'utf-8'
-		set fileencodings=ucs-bom,utf-8,default,latin1
-	elseif &encoding == 'cp932'
-		set fileencodings=ucs-bom
-	endif
+if has('iconv')
+  let s:enc_euc = 'euc-jp'
+  let s:enc_jis = 'iso-2022-jp'
 
-	" set fileencodings for character code automatic recognition
-	if &encoding !=# 'utf-8'
-		set encoding=japan
-		set fileencoding=japan
-	endif
-	if has('iconv')
-		let s:enc_euc = 'euc-jp'
-		let s:enc_jis = 'iso-2022-jp'
-		" check whether iconv supports eucJP-ms.
-		if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
-			let s:enc_euc = 'eucjp-ms'
-			let s:enc_jis = 'iso-2022-jp-3'
-			" check whether iconv supports JISX0213.
-		elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
-			let s:enc_euc = 'euc-jisx0213'
-			let s:enc_jis = 'iso-2022-jp-3'
-		endif
-		" build fileencodings
-		if &encoding ==# 'utf-8'
-			let s:fileencodings_default = &fileencodings
-			let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-			let &fileencodings = &fileencodings .','. s:fileencodings_default
-			unlet s:fileencodings_default
-		else
-			let &fileencodings = &fileencodings .','. s:enc_jis
-			set fileencodings+=utf-8,ucs-2le,ucs-2
-			if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
-				set fileencodings+=cp932
-				set fileencodings-=euc-jp
-				set fileencodings-=euc-jisx0213
-				set fileencodings-=eucjp-ms
-				let &encoding = s:enc_euc
-				let &fileencoding = s:enc_euc
-			else
-				let &fileencodings = &fileencodings .','. s:enc_euc
-			endif
-		endif
-		" give priority to utf-8
-		if &encoding == 'utf-8'
-			set fileencodings-=utf-8
-			let &fileencodings = substitute(&fileencodings, s:enc_jis, s:enc_jis.',utf-8','')
-		endif
+  " Does iconv support JIS X 0213 ?
+  if iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+    let s:enc_euc = 'euc-jisx0213,euc-jp'
+    let s:enc_jis = 'iso-2022-jp-3'
+  endif
 
-		" clean up constant
-		unlet s:enc_euc
-		unlet s:enc_jis
-	endif
+  " Make fileencodings
+  let &fileencodings = 'ucs-bom'
+  if &encoding !=# 'utf-8'
+    let &fileencodings = &fileencodings . ',' . 'ucs-2le'
+    let &fileencodings = &fileencodings . ',' . 'ucs-2'
+  endif
+  let &fileencodings = &fileencodings . ',' . s:enc_jis
 
-	" set fileformats automatic recognition
-	if s:is_win
-		set fileformats=dos,unix,mac
-	else
-		set fileformats=unix,mac,dos
-	endif
+  if &encoding ==# 'utf-8'
+    let &fileencodings = &fileencodings . ',' . s:enc_euc
+    let &fileencodings = &fileencodings . ',' . 'cp932'
+  elseif &encoding =~# '^euc-\%(jp\|jisx0213\)$'
+    let &encoding = s:enc_euc
+    let &fileencodings = &fileencodings . ',' . 'utf-8'
+    let &fileencodings = &fileencodings . ',' . 'cp932'
+  else  " cp932
+    let &fileencodings = &fileencodings . ',' . 'utf-8'
+    let &fileencodings = &fileencodings . ',' . s:enc_euc
+  endif
+  let &fileencodings = &fileencodings . ',' . &encoding
 
-	" to use the encoding to fileencoding when not included the Japanese
-	if has('autocmd')
-		function! AU_ReCheck_FENC()
-			if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
-				let &fileencoding = &encoding
-				if s:is_win
-					let &fileencoding = 'cp932'
-				endif
-			endif
-		endfunction
-		autocmd MyAutoCmd BufReadPost * call AU_ReCheck_FENC()
-	endif
+  unlet s:enc_euc
+  unlet s:enc_jis
+endif
 
-	" When internal encoding is not cp932 in Windows,
-	" and environment variable contains multi-byte character
-	command! -nargs=+ Let call Let__EnvVar__(<q-args>)
-	function! Let__EnvVar__(cmd)
-		let cmd = 'let ' . a:cmd
-		if s:is_win && has('iconv') && &enc != 'cp932'
-			let cmd = iconv(cmd, &enc, 'cp932')
-		endif
-		exec cmd
-	endfunction
+
+if $ENV_ACCESS ==# 'summer'
+  set termencoding=cp932
+elseif has('gui_macvim')
+  " E617 - It's not possible to change 'termencoding' in MacVim.
+else  " fallback
+  set termencoding=  " same as 'encoding'
 endif
 
 " must be set with multibyte strings
@@ -312,8 +263,10 @@ endif
 if s:is_win
 "	set listchars=tab:^\ ,trail:-,extends:<,precedes:<,nbsp:%
 	set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+elseif s:is_mac
+	set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 else
-"    set listchars=tab:▸\ ,trail:-,extends:»,,precedes:«,,nbsp:%,eol:↲
+	set listchars=tab:^\ ,trail:-,extends:<,precedes:<,nbsp:%,eol:$
 endif
 
 set nowrap      " 長い行を折り返さないで表示
@@ -802,7 +755,6 @@ vmap gx <Plug>(openbrowser-smart-search)
 "}}}
 
 " vim-quickhl {{{
-"　　
 " <http://vim-users.jp/2011/08/hack226/>
 nmap <Space>m <Plug>(quickhl-toggle)
 xmap <Space>m <Plug>(quickhl-toggle)
@@ -830,142 +782,142 @@ let g:quickhl_colors = [
     \ ]
 "}}}
 
-" lightline {{{
-" powerline フォントパッチ
-"   http://qiita.com/s_of_p/items/b7ab2e4a9e484ceb9ee7
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'modified': 'MyModified',
-      \   'readonly': 'MyReadonly',
-      \   'fugitive': 'MyFugitive',
-      \   'filename': 'MyFilename',
-      \   'fileformat': 'MyFileformat',
-      \   'filetype': 'MyFiletype',
-      \   'fileencoding': 'MyFileencoding',
-      \   'mode': 'MyMode',
-      \   'ctrlpmark': 'CtrlPMark',
-      \ },
-      \ 'component_expand': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \ },
-      \ 'component_type': {
-      \   'syntastic': 'error',
-      \ },
-      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-      \ }
-
-
-function! MyModified()
-  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
-function! MyFilename()
-  let fname = expand('%:t')
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
-        \ fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
-
-function! MyFugitive()
-  try
-    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-      let mark = ''  " edit here for cool mark
-      let _ = fugitive#head()
-      return strlen(_) ? mark._ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == 'ControlP' ? 'CtrlP' :
-        \ fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP'
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
-endfunction
-
-let g:ctrlp_status_func = {
-  \ 'main': 'CtrlPStatusFunc_1',
-  \ 'prog': 'CtrlPStatusFunc_2',
-  \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
-endfunction
-
-let g:tagbar_status_func = 'TagbarStatusFunc'
-
-function! TagbarStatusFunc(current, sort, fname, ...) abort
-    let g:lightline.fname = a:fname
-  return lightline#statusline(0)
-endfunction
-
-augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp call s:syntastic()
-augroup END
-function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
-endfunction
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
-"}}}
+"" lightline {{{
+"" powerline フォントパッチ
+""   http://qiita.com/s_of_p/items/b7ab2e4a9e484ceb9ee7
+"let g:lightline = {
+"      \ 'colorscheme': 'jellybeans',
+"      \ 'active': {
+"      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+"      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+"      \ },
+"      \ 'component_function': {
+"      \   'modified': 'MyModified',
+"      \   'readonly': 'MyReadonly',
+"      \   'fugitive': 'MyFugitive',
+"      \   'filename': 'MyFilename',
+"      \   'fileformat': 'MyFileformat',
+"      \   'filetype': 'MyFiletype',
+"      \   'fileencoding': 'MyFileencoding',
+"      \   'mode': 'MyMode',
+"      \   'ctrlpmark': 'CtrlPMark',
+"      \ },
+"      \ 'component_expand': {
+"      \   'syntastic': 'SyntasticStatuslineFlag',
+"      \ },
+"      \ 'component_type': {
+"      \   'syntastic': 'error',
+"      \ },
+"      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+"      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+"      \ }
+"
+"
+"function! MyModified()
+"  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+"endfunction
+"
+"function! MyReadonly()
+"  return &ft !~? 'help' && &readonly ? 'RO' : ''
+"endfunction
+"
+"function! MyFilename()
+"  let fname = expand('%:t')
+"  return fname == 'ControlP' ? g:lightline.ctrlp_item :
+"        \ fname == '__Tagbar__' ? g:lightline.fname :
+"        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+"        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+"        \ &ft == 'unite' ? unite#get_status_string() :
+"        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+"        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+"        \ ('' != fname ? fname : '[No Name]') .
+"        \ ('' != MyModified() ? ' ' . MyModified() : '')
+"endfunction
+"
+"function! MyFugitive()
+"  try
+"    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+"      let mark = ''  " edit here for cool mark
+"      let _ = fugitive#head()
+"      return strlen(_) ? mark._ : ''
+"    endif
+"  catch
+"  endtry
+"  return ''
+"endfunction
+"
+"function! MyFileformat()
+"  return winwidth(0) > 70 ? &fileformat : ''
+"endfunction
+"
+"function! MyFiletype()
+"  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+"endfunction
+"
+"function! MyFileencoding()
+"  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+"endfunction
+"
+"function! MyMode()
+"  let fname = expand('%:t')
+"  return fname == '__Tagbar__' ? 'Tagbar' :
+"        \ fname == 'ControlP' ? 'CtrlP' :
+"        \ fname == '__Gundo__' ? 'Gundo' :
+"        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+"        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+"        \ &ft == 'unite' ? 'Unite' :
+"        \ &ft == 'vimfiler' ? 'VimFiler' :
+"        \ &ft == 'vimshell' ? 'VimShell' :
+"        \ winwidth(0) > 60 ? lightline#mode() : ''
+"endfunction
+"
+"function! CtrlPMark()
+"  if expand('%:t') =~ 'ControlP'
+"    call lightline#link('iR'[g:lightline.ctrlp_regex])
+"    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+"          \ , g:lightline.ctrlp_next], 0)
+"  else
+"    return ''
+"  endif
+"endfunction
+"
+"let g:ctrlp_status_func = {
+"  \ 'main': 'CtrlPStatusFunc_1',
+"  \ 'prog': 'CtrlPStatusFunc_2',
+"  \ }
+"
+"function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+"  let g:lightline.ctrlp_regex = a:regex
+"  let g:lightline.ctrlp_prev = a:prev
+"  let g:lightline.ctrlp_item = a:item
+"  let g:lightline.ctrlp_next = a:next
+"  return lightline#statusline(0)
+"endfunction
+"
+"function! CtrlPStatusFunc_2(str)
+"  return lightline#statusline(0)
+"endfunction
+"
+"let g:tagbar_status_func = 'TagbarStatusFunc'
+"
+"function! TagbarStatusFunc(current, sort, fname, ...) abort
+"    let g:lightline.fname = a:fname
+"  return lightline#statusline(0)
+"endfunction
+"
+"augroup AutoSyntastic
+"  autocmd!
+"  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+"augroup END
+"function! s:syntastic()
+"  SyntasticCheck
+"  call lightline#update()
+"endfunction
+"
+"let g:unite_force_overwrite_statusline = 0
+"let g:vimfiler_force_overwrite_statusline = 0
+"let g:vimshell_force_overwrite_statusline = 0
+""}}}
 
 " neosnippet {{{
 "   * C-k to select-and-expand a snippet from the Neocomplcache popup
