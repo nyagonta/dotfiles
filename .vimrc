@@ -272,6 +272,9 @@ if has("cscope")
     cs add $CSCOPE_DB
   endif
   set cscopeverbose         " show msg when any other cscope db added
+  if has('quickfix')
+    set cscopequickfix=s-,c-,d-,i-,t-,e- " use quickfix for the output of cscope commands
+  endif
 endif
 " }}} cscope
 
@@ -316,9 +319,9 @@ augroup vimrc-swap-readonly
 	autocmd SwapExists * let v:swapchoice = 'o'
 augroup END
 
-augroup vimrc-grep
+augroup vimrc-quickfix-post
 	autocmd!
-	autocmd QuickFixCmdPost *grep* cwindow
+	autocmd QuickFixCmdPost * cwindow
 augroup END
 "}}}
 
@@ -327,7 +330,7 @@ augroup END
 
 """ Normal + Visual modes
 
-""" Normal mode 
+""" Normal mode
 nnoremap Y y$
 
 nnoremap + <C-a>
