@@ -9,9 +9,9 @@
 " Prepare .vim dir {{{
 let s:vimdir = $HOME . "/.vim"
 if has("vim_starting")
-  if ! isdirectory(s:vimdir)
-    call system("mkdir " . s:vimdir)
-  endif
+	if ! isdirectory(s:vimdir)
+		call system("mkdir " . s:vimdir)
+	endif
 endif
 " }}}
 
@@ -22,8 +22,8 @@ let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 " Check dein has been installed or not.
 if !isdirectory(s:dein_repo_dir)
-    echo "dein is not installed, install now "
-    call system("git clone https://github.com/Shougo/dein.vim " . s:dein_repo_dir)
+	echo "dein is not installed, install now "
+	call system("git clone https://github.com/Shougo/dein.vim " . s:dein_repo_dir)
 endif
 let &runtimepath = &runtimepath . "," . s:dein_repo_dir
 
@@ -83,7 +83,7 @@ endif
 
 " Installation check.
 if dein#check_install()
-    call dein#install()
+	call dein#install()
 endif
 " }}} dein
 
@@ -113,20 +113,20 @@ scriptencoding utf-8
 " Options: {{{
 " --- general ---
 set helplang=ja,en
-set shortmess+=I	" hide the launch screen
-set mouse=a			" Enable mouse support.
+set shortmess+=I				" hide the launch screen
+set mouse=a						" Enable mouse support.
 
 " --- performance / buffer ---
-set hidden                  " can put buffer to the background without writing
-                            "   to disk, will remember history/marks.
-set lazyredraw              " don't update the display while executing macros
-set ttyfast                 " Send more characters at a given time.
+set hidden						" can put buffer to the background without writing
+								"   to disk, will remember history/marks.
+set lazyredraw					" don't update the display while executing macros
+set ttyfast						" Send more characters at a given time.
 
 " --- history / file handling ---
-set history=999             " Increase history (default = 20)
-set undolevels=999          " Moar undo (default=100)
-set autoread                " reload files if changed externally
-set browsedir=buffer            " ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
+set history=999					" Increase history (default = 20)
+set undolevels=999				" Moar undo (default=100)
+set autoread					" reload files if changed externally
+set browsedir=buffer			" ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
 
 " --- backup and swap files ---
 " I save all the time, those are annoying and unnecessary...
@@ -135,110 +135,111 @@ set nowritebackup
 set noswapfile
 
 " --- UI ---
-set cursorline				" Highlight line under cursor. It helps with navigation.
-set number                  " Enable line numbers.
-set report=0                " Show all changes.
-set showmode    " Show mode in statusbar, not separately.
-set showcmd     " show (partial) command in the last line of the screen
-                "    this also shows visual selection info
-set showmatch   " Cursor shows matching ) and }
+set cursorline					" Highlight line under cursor. It helps with navigation.
+set number						" Enable line numbers.
+set report=0					" Show all changes.
+set showmode					" Show mode in statusbar, not separately.
+set showcmd						" show (partial) command in the last line of the screen
+								"    this also shows visual selection info
+set showmatch					" Cursor shows matching ) and }
 set matchtime=1
-set matchpairs+=<:>         " Highlight <>.
-set scrolloff=5             " Start scrolling n lines before horizontal
-                            "   border of window.
-set sidescrolloff=7         " Start scrolling n chars before end of screen.
-set sidescroll=1            " The minimal number of columns to scroll
-                            "   horizontally.
-set ruler     	"Always show current position
-set nowrap      " 長い行を折り返さないで表示
-set cmdheight=1 " Height of the command bar
-set title       " タイトルを表示
-set noea        " ウィンドー開閉時のサイズ変更OFF
-set completeopt=menuone " チラツキ防止
-set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+set matchpairs+=<:>				" Highlight <>.
+set scrolloff=5					" Start scrolling n lines before horizontal
+								"   border of window.
+set sidescrolloff=7				" Start scrolling n chars before end of screen.
+set sidescroll=1				" The minimal number of columns to scroll
+								"   horizontally.
+set ruler						" Always show current position
+set nowrap						" 長い行を折り返さないで表示
+set cmdheight=1					" Height of the command bar
+set title						" タイトルを表示
+set noea						" ウィンドー開閉時のサイズ変更OFF
+set completeopt=menuone			" チラツキ防止
+set listchars=tab:▷\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+"set listchars=tab:▶\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 "set listchars=tab:^\ ,trail:-,extends:<,precedes:<,nbsp:%,eol:$
 set list " Enable by default"
 
 " --- status line ---
-set laststatus=2 " always show
+set laststatus=2				" always show
 set statusline=%<
 set statusline+=%{hostname()}:
 if winwidth(0) >= 130
-  set statusline+=%F                                   " Full path
+	set statusline+=%F								" Full path
 else
-  set statusline+=%t                                   " Only file name
+	set statusline+=%t								" Only file name
 endif
-set statusline+=\                                      " spcae x 1
-set statusline+=[%n]                                   " Buffer number
-set statusline+=%m%r%h%w                               " Modified? Readonly? Help? Preview?
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'}      " Encoding
-set statusline+=%{(&bomb?'bom:':'')}                   " Encoding2
-set statusline+=%{&ff.']'}\                            " FileFormat (dos/unix..)
-set statusline+=[0x%02B]\                              " Character under curor - Byte number in file
-set statusline+=%y                                     " FileType
-set statusline+=%=                                     " Switch to the right side
-set statusline+=%{fugitive#statusline()}               " Git branck name
-set statusline+=\ \                                    " space x 2
-set statusline+=%1l/%L,%c                              " Rownumber/total,Colnr
-set statusline+=\ \                                    " space x 2
-set statusline+=%P                                     " Top/bot
+set statusline+=\ 									" spcae x 1
+set statusline+=[%n]								" Buffer number
+set statusline+=%m%r%h%w							" Modified? Readonly? Help? Preview?
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'}	" Encoding
+set statusline+=%{(&bomb?'bom:':'')}				" Encoding2
+set statusline+=%{&ff.']'}							" FileFormat (dos/unix..)
+set statusline+=%y\ 								" FileType
+set statusline+=%{fugitive#statusline()}			" Git branck name
+set statusline+=%=									" Switch to the right side
+set statusline+=\ \ 								" space x 2
+set statusline+=[0x%02B]\ 							" Character under curor - Byte number in file
+set statusline+=%1l/%L,%c							" Rownumber/total,Colnr
+set statusline+=\ \ 								" space x 2
+set statusline+=%P									" Top/bot
 
 " --- search / regexp ---
-set gdefault        " RegExp global by default
-set magic			" for regular expressions turn magic on
-set hlsearch		" enable search highlighting.
-set incsearch		" show search matches as you type
-set ignorecase		" ignore case when searching
-set smartcase		" ignore case if search pattern is all lowercase,case-sensitive otherwise
-set wrapscan        " searches wrap around the end of the file
-set nostartofline   " make j/k respect the columns
-set whichwrap=b,s,<,>,[,]   " wrap over new lines
+set gdefault					" RegExp global by default
+set magic						" for regular expressions turn magic on
+set hlsearch					" enable search highlighting.
+set incsearch					" show search matches as you type
+set ignorecase					" ignore case when searching
+set smartcase					" ignore case if search pattern is all lowercase,case-sensitive otherwise
+set wrapscan					" searches wrap around the end of the file
+set nostartofline				" make j/k respect the columns
+set whichwrap=b,s,<,>,[,]		" wrap over new lines
 
 " --- Editing ---
 set backspace=indent,eol,start	" Allow backspace in insert mode.
-set cpoptions-=m                " Highlight when CursorMoved.
-set nolinebreak                 " Don't break words
-set formatoptions+=mM           " automatic formating (this is useful for japanese text)
-set undolevels=2000             " more undo
-set textwidth=0                        " 自動改行をさせない
-set clipboard=unnamed           " yank to the system register (*) by default
-set nrformats=alpha,octal,hex   " <C-a> <C-x> で英字も増減させる
-set virtualedit=block           " Allow virtual editing in block mode
-set pumheight=10                " Don't show more than 10 items in the popup menu
+set cpoptions-=m				" Highlight when CursorMoved.
+set nolinebreak					" Don't break words
+set formatoptions+=mM			" automatic formating (this is useful for japanese text)
+set undolevels=2000				" more undo
+set textwidth=0					" 自動改行をさせない
+set clipboard=unnamed			" yank to the system register (*) by default
+set nrformats=alpha,octal,hex	" <C-a> <C-x> で英字も増減させる
+set virtualedit=block			" Allow virtual editing in block mode
+set pumheight=10				" Don't show more than 10 items in the popup menu
 " http://www.geocities.co.jp/SiliconValley-SantaClara/1183/computer/gvim.html
-set iminsert=0 " インサートモードで日本語入力を ON にしない
-set imsearch=0 " 検索モードで日本語入力を ON にしない
+set iminsert=0					" インサートモードで日本語入力を ON にしない
+set imsearch=0					" 検索モードで日本語入力を ON にしない
 "}}}
 
 " --- indents / tabs ---
 " expand tabs to 4 spaces
-set shiftwidth=4    " cindentやautoindent時に挿入されるタブの幅
-set tabstop=4       " タブの画面上での幅
-set softtabstop=0   " タブ入力時の空白変換を無効にする
-set noexpandtab     " タブの代わりに空白を挿入しない
-set autoindent		" autoindent when starting new line, or using `o` or `O`.
-set cindent         " コードを自動的にインデントする (C言語のコーディングに便利)
-set smartindent     " 新しい行を作ったときに高度な自動インデントを行う
-set smarttab		" insert tabs on the start of a line according to context
-set copyindent		" copy the previous indentation on autoindenting
-set preserveindent  " カレント行のインデント変更時に可能な限りインデント構造を維持する
-set showtabline=2	" Show Tabline
+set shiftwidth=4				" cindentやautoindent時に挿入されるタブの幅
+set tabstop=4					" タブの画面上での幅
+set softtabstop=0				" タブ入力時の空白変換を無効にする
+set noexpandtab					" タブの代わりに空白を挿入しない
+set autoindent					" autoindent when starting new line, or using `o` or `O`.
+set cindent						" コードを自動的にインデントする (C言語のコーディングに便利)
+set smartindent					" 新しい行を作ったときに高度な自動インデントを行う
+set smarttab					" insert tabs on the start of a line according to context
+set copyindent					" copy the previous indentation on autoindenting
+set preserveindent				" カレント行のインデント変更時に可能な限りインデント構造を維持する
+set showtabline=2				" Show Tabline
 
 " --- command completion ---
-set wildmenu                    " wild char completion menu
+set wildmenu					" wild char completion menu
 set wildchar=<TAB>				" start wild expansion in the command line using <TAB>
 set wildmode=list:full
 set wildignore+=*.pyc,*.sqlite,*.sqlite3,cscope.out
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip	" MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe	" Windows
 
 " --- diff ---
-set diffopt=filler          " Add vertical spaces to keep right
-                            "   and left aligned.
-set diffopt+=iwhite         " Ignore whitespace changes.
+set diffopt=filler				" Add vertical spaces to keep right
+								"   and left aligned.
+set diffopt+=iwhite				" Ignore whitespace changes.
 
 " --- folding ---
-set foldenable                                          " Enable folding.
+set foldenable					" Enable folding.
 set foldmethod=marker
 set foldlevel=1
 set foldcolumn=0
@@ -246,35 +247,35 @@ set foldopen=block,hor,mark,percent,quickfix,search,tag " what movements open fo
 
 " --- misc ---
 " Turn off annoying error bells:
-set noerrorbells	" no error bell
-set novisualbell	" no visual bell
+set noerrorbells				" no error bell
+set novisualbell				" no visual bell
 set t_vb=
-set timeoutlen=500	" timeout[ms] key sequence
+set timeoutlen=500				" timeout[ms] key sequence
 " }}}
 
 " ctags {{{
 "set tags=./tags,tags;
 if has("path_extra")
-  set tags+=tags;
+	set tags+=tags;
 endif
 "}}} tag
 
 " cscope {{{
 if has("cscope")
-  set cscopetagorder=0      " order : ctags, cscope
-  set cscopetag             " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-  set nocscopeverbose
-  " add any database in current directory
-  if filereadable("cscope.out")
-    cs add cscope.out
-    " else add database pointed to by environment
-  elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-  endif
-  set cscopeverbose         " show msg when any other cscope db added
-  if has('quickfix')
-    set cscopequickfix=s-,c-,d-,i-,t-,e- " use quickfix for the output of cscope commands
-  endif
+	set cscopetagorder=0			" order : ctags, cscope
+	set cscopetag					" use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+	set nocscopeverbose
+	" add any database in current directory
+	if filereadable("cscope.out")
+		cs add cscope.out
+		" else add database pointed to by environment
+	elseif $CSCOPE_DB != ""
+		cs add $CSCOPE_DB
+	endif
+	set cscopeverbose				" show msg when any other cscope db added
+	if has('quickfix')
+		set cscopequickfix=s-,c-,d-,i-,t-,e- " use quickfix for the output of cscope commands
+	endif
 endif
 " }}} cscope
 
@@ -326,11 +327,6 @@ augroup END
 "}}}
 
 " map (for other than each plugin){{{
-"remapping, tips
-
-""" Normal + Visual modes
-
-""" Normal mode
 nnoremap Y y$
 
 nnoremap + <C-a>
@@ -367,8 +363,6 @@ nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 " Semicolon is just colon
 nnoremap ; :
 
-""" insert mode
-
 " jj to escape
 inoremap jj <ESC>
 
@@ -377,9 +371,6 @@ nmap <Space>m <Plug>(quickhl-manual-this)
 xmap <Space>m <Plug>(quickhl-manual-this)
 nmap <Space>M <Plug>(quickhl-manual-reset)
 xmap <Space>M <Plug>(quickhl-manual-reset)
-
-""" visual mode
-
 " }}} map
 
 
@@ -388,20 +379,20 @@ xmap <Space>M <Plug>(quickhl-manual-reset)
 " Ctrl-P {{{
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-    \ 'file': '\v\.(exe|so|dll|keep|bak)$',
-    \ }
+	\ 'file': '\v\.(exe|so|dll|keep|bak)$',
+	\ }
 "}}}
 
 " taglist: {{{
-let Tlist_Show_One_File = 1        " Show tags for the current buffer only
-let Tlist_Use_Right_Window = 1     " Place the taglist window on the right side
-let Tlist_Exit_OnlyWindow = 1      " Close Vim if the taglist is the only window
+let Tlist_Show_One_File = 1			" Show tags for the current buffer only
+let Tlist_Use_Right_Window = 1		" Place the taglist window on the right side
+let Tlist_Exit_OnlyWindow = 1		" Close Vim if the taglist is the only window
 "}}}
 
 " srcexpl: {{{
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to 
-" // create/update the tags file 
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." 
+" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
+" // create/update the tags file
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
 "}}}
 
 " NERDTree "{{{
@@ -420,10 +411,6 @@ hi BufferSelected guifg=green
 hi BufferNormal term=NONE ctermfg=black ctermbg=darkcyan cterm=NONE
 "}}}
 
-" indentLine "{{{
-
-" }}}}"
-"
 "}}}
 
 " vim: set ts=4 sts=4 sw=4 tw=0
