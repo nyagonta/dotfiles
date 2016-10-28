@@ -16,41 +16,42 @@ endif
 " }}}
 
 " dein {{{
-" Set dein paths
+" Set dein paths {{{
 let s:dein_dir = s:vimdir . '/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+" }}}
 
-" Check dein has been installed or not.
+" Check dein has been installed or not. {{{
 if !isdirectory(s:dein_repo_dir)
 	echo "dein is not installed, install now "
 	call system("git clone https://github.com/Shougo/dein.vim " . s:dein_repo_dir)
 endif
 let &runtimepath = &runtimepath . "," . s:dein_repo_dir
+" }}}
 
-" Begin plugin part {{{
-
+" plugin part {{{
 " Check cache
 if dein#load_state(s:dein_dir)
-    call dein#begin(s:dein_dir)
+	call dein#begin(s:dein_dir)
 
 	" dein
-    call dein#add('Shougo/dein.vim')
+	call dein#add('Shougo/dein.vim')
 
-    " Basic tools {{{
-    " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-    call dein#add('Shougo/vimproc', {'build': 'make'})
-    " }}}
+	" Basic tools {{{
+	" Asynchronous execution library: need for vimshell, Gmail, unite, etc...
+	call dein#add('Shougo/vimproc', {'build': 'make'})
+	" }}}
 
-	" plugins
-    call dein#add('kien/ctrlp.vim')
-    call dein#add('mattn/calendar-vim')
-    call dein#add('vim-jp/vimdoc-ja')
-    call dein#add('tmhedberg/matchit')
-    call dein#add('kana/vim-smartinput')
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('osyo-manga/vim-anzu')
-    call dein#add('wesleyche/SrcExpl')
+	" plugins {{{
+	call dein#add('kien/ctrlp.vim')
+	call dein#add('mattn/calendar-vim')
+	call dein#add('vim-jp/vimdoc-ja')
+	call dein#add('tmhedberg/matchit')
+	call dein#add('kana/vim-smartinput')
+	call dein#add('tpope/vim-fugitive')
+	call dein#add('airblade/vim-gitgutter')
+	call dein#add('osyo-manga/vim-anzu')
+	call dein#add('wesleyche/SrcExpl')
 	call dein#add('roblillack/vim-bufferlist')
 	call dein#add('vim-scripts/taglist.vim')
 	call dein#add('scrooloose/nerdtree')
@@ -62,39 +63,39 @@ if dein#load_state(s:dein_dir)
 	call dein#add('AndrewRadev/linediff.vim')
 	call dein#add('AndrewRadev/switch.vim')
 	call dein#add('t9md/vim-quickhl')
+	" }}}
 
-    " color schemes {{{
-    call dein#add('rodnaph/vim-color-schemes')
-    call dein#add('29decibel/codeschool-vim-theme')
-    call dein#add('altercation/vim-colors-solarized')
-    call dein#add('croaker/mustang-vim')
-    call dein#add('nanotech/jellybeans.vim')
-    call dein#add('tomasr/molokai')
-    call dein#add('vim-scripts/github-theme')
-    call dein#add('sjl/badwolf')
-    call dein#add('joshdick/onedark.vim')
-    "}}}
+	" color schemes {{{
+	call dein#add('rodnaph/vim-color-schemes')
+	call dein#add('29decibel/codeschool-vim-theme')
+	call dein#add('altercation/vim-colors-solarized')
+	call dein#add('croaker/mustang-vim')
+	call dein#add('nanotech/jellybeans.vim')
+	call dein#add('tomasr/molokai')
+	call dein#add('vim-scripts/github-theme')
+	call dein#add('sjl/badwolf')
+	call dein#add('joshdick/onedark.vim')
+	"}}}
 
-    call dein#end()
-
-    call dein#save_state()
+	call dein#end()
+	call dein#save_state()
 endif
 " }}}
 
-" Installation check.
+" Installation check. {{{
 if dein#check_install()
 	call dein#install()
 endif
+" }}}
 " }}} dein
-
 
 " Basic settings {{{
 " --- General Settings ---
-filetype off          " necessary to make ftdetect work on Linux
-syntax on             " syntax highlight
-filetype on           " Enable filetype detection
-filetype indent on    " Enable filetype-specific indenting
-filetype plugin on    " Enable filetype-specific plugins Enable plugin, indent again
+filetype off					" necessary to make ftdetect work on Linux
+syntax on						" syntax highlight
+filetype on						" Enable filetype detection
+filetype indent on				" Enable filetype-specific indenting
+filetype plugin on				" Enable filetype-specific plugins Enable plugin, indent again
 filetype plugin indent on
 
 " --- Set the color scheme ---
