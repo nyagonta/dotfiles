@@ -56,7 +56,7 @@ if dein#load_state(s:dein_dir)
 	call dein#add('osyo-manga/vim-anzu')
 	call dein#add('roblillack/vim-bufferlist')
 	call dein#add('scrooloose/nerdtree')
-	call dein#add('t9md/vim-quickhl')
+	call dein#add('t9md/vim-quickhl')					" quickly highlight <cword> or visually selected wor
 	call dein#add('tmhedberg/matchit')
 	call dein#add('tpope/vim-endwise')
 	call dein#add('tpope/vim-fugitive')
@@ -374,6 +374,9 @@ nmap <Space>m <Plug>(quickhl-manual-this)
 xmap <Space>m <Plug>(quickhl-manual-this)
 nmap <Space>M <Plug>(quickhl-manual-reset)
 xmap <Space>M <Plug>(quickhl-manual-reset)
+
+" ctrlp
+nmap <C-M> :CtrlPMRU<CR>
 " }}} map
 
 
@@ -381,9 +384,18 @@ xmap <Space>M <Plug>(quickhl-manual-reset)
 "
 " Ctrl-P: {{{
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+if has('unix') || has('mac')
+	let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+else
+	let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
+endif
 let g:ctrlp_custom_ignore = {
-	\ 'file': '\v\.(exe|so|dll|keep|bak)$',
-	\ }
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|keep|bak)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 "}}}
 
 " lightline: {{{
@@ -423,7 +435,7 @@ function! LightlineFilename()
   let fname = expand('%:t')
   return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
         \ fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ fname =~ '__Gundo\|NERD_tree\|__Calendar' ? '' :
         \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
         \ &ft == 'unite' ? unite#get_status_string() :
         \ &ft == 'vimshell' ? vimshell#get_status_string() :
@@ -434,7 +446,7 @@ endfunction
 
 function! LightlineFugitive()
   try
-    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD\|Calendar' && &ft !~? 'vimfiler' && exists('*fugitive#head')
       let mark = ''  " edit here for cool mark
       let branch = fugitive#head()
       return branch !=# '' ? mark.branch : ''
@@ -459,6 +471,7 @@ endfunction
 function! LightlineMode()
   let fname = expand('%:t')
   return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == '__Calendar' ? 'Cal' :
         \ fname == 'ControlP' ? 'CtrlP' :
         \ fname == '__Gundo__' ? 'Gundo' :
         \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
