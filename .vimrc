@@ -1,8 +1,8 @@
 ""---------------------------------------------------------------------------
 ""
-""   File: _vimrc
+""   File: .vimrc
 ""   Maintainer: nyagonta
-""   Last Change: 21-Feb-2015.
+""   Last Change: 01-Nov-2016.
 ""
 ""---------------------------------------------------------------------------
 
@@ -337,6 +337,8 @@ nnoremap Y y$
 nnoremap + <C-a>
 nnoremap - <C-x>
 
+map <F3> :grep -r <C-R><C-W> .
+
 " BufferListの表示 (bufferlist.vim)
 nnoremap <silent> <F7> :call BufferList()<CR>
 
@@ -378,7 +380,7 @@ nmap <Space>M <Plug>(quickhl-manual-reset)
 xmap <Space>M <Plug>(quickhl-manual-reset)
 
 " ctrlp
-nmap <C-M> :CtrlPMRU<CR>
+"nmap <C-M> :CtrlPMRU<CR>
 " }}} map
 
 " Command: {{{
