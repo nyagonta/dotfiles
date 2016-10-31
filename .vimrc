@@ -15,7 +15,7 @@ if has("vim_starting")
 endif
 " }}}
 
-" dein {{{
+" Dein: {{{
 " Set dein paths {{{
 let s:dein_dir = s:vimdir . '/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
@@ -62,8 +62,10 @@ if dein#load_state(s:dein_dir)
 	call dein#add('tpope/vim-fugitive')
 	call dein#add('tpope/vim-surround')
 	call dein#add('vim-jp/vimdoc-ja')
+	call dein#add('vim-scripts/copypath.vim')
 	call dein#add('vim-scripts/taglist.vim')
 	call dein#add('wesleyche/SrcExpl')
+	call dein#add('mtth/scratch.vim')
 	" }}}
 
 	" color schemes {{{
@@ -379,9 +381,21 @@ xmap <Space>M <Plug>(quickhl-manual-reset)
 nmap <C-M> :CtrlPMRU<CR>
 " }}} map
 
+" Command: {{{
+" kaoriya extra comands
+" :CdCurrent
+"   Change current directory to current file's one.
+command! -nargs=0 CdCurrent cd %:p:h
+" }}}
+
 
 " Plugin Settings: "{{{
 "
+" copypath: {{{
+" copy file path and name to unnamed register
+let g:copypath_copy_to_unnamed_register = 1
+" }}}
+
 " Ctrl-P: {{{
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -535,6 +549,11 @@ let Tlist_Show_One_File = 1			" Show tags for the current buffer only
 let Tlist_Use_Right_Window = 1		" Place the taglist window on the right side
 let Tlist_Exit_OnlyWindow = 1		" Close Vim if the taglist is the only window
 "}}}
+
+" scratch: {{{
+let g:scratch_autohide = 0
+let g:scratch_insert_autohide = 0
+" }}}
 
 " srcexpl: {{{
 " // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
