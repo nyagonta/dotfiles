@@ -2,7 +2,7 @@
 ""
 ""   File: .vimrc
 ""   Maintainer: nyagonta
-""   Last Change: 01-Nov-2016.
+""   Last Change: 08-Nov-2016.
 ""
 ""---------------------------------------------------------------------------
 
@@ -121,6 +121,8 @@ set helplang=ja,en
 set shortmess+=I				" hide the launch screen
 set mouse=a						" Enable mouse support.
 
+set spelllang=en,cjk
+
 " --- performance / buffer ---
 set hidden						" can put buffer to the background without writing
 								"   to disk, will remember history/marks.
@@ -131,7 +133,7 @@ set ttyfast						" Send more characters at a given time.
 set history=999					" Increase history (default = 20)
 set undolevels=999				" Moar undo (default=100)
 set autoread					" reload files if changed externally
-set browsedir=buffer			" ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
+set browsedir=buffer			" Use the same directory as the current buffer (:bro e)
 
 " --- backup and swap files ---
 " I save all the time, those are annoying and unnecessary...
@@ -144,7 +146,7 @@ set cursorline					" Highlight line under cursor. It helps with navigation.
 set number						" Enable line numbers.
 set report=0					" Show all changes.
 set showmode					" Show mode in statusbar, not separately.
-set showcmd						" show (partial) command in the last line of the screen
+set showcmd						" show (partial) command in the status line
 								"    this also shows visual selection info
 set showmatch					" Cursor shows matching ) and }
 set matchtime=1
@@ -155,10 +157,14 @@ set sidescrolloff=7				" Start scrolling n chars before end of screen.
 set sidescroll=1				" The minimal number of columns to scroll
 								"   horizontally.
 set ruler						" Always show current position
-set nowrap						" 長い行を折り返さないで表示
+set nowrap						" Display long lines as just one line
 set cmdheight=1					" Height of the command bar
-set title						" タイトルを表示
-set noea						" ウィンドー開閉時のサイズ変更OFF
+
+set title						" enable setting title
+set titlestring=VIM:\ %-25.55F\ %a%r%m	" configure title to look like: Vim /path/to/file
+set titlelen=70
+
+set noequalalways				" all windows not same size after split or close
 set completeopt=menuone			" チラツキ防止
 set listchars=tab:▷\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 "set listchars=tab:▶\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
@@ -337,6 +343,10 @@ nnoremap Y y$
 nnoremap + <C-a>
 nnoremap - <C-x>
 
+" Remap F1 from Help to ESC.  No more accidents.
+nmap <F1> <Esc>
+map! <F1> <Esc>
+
 map <F3> :grep -r <C-R><C-W> .
 
 " BufferListの表示 (bufferlist.vim)
@@ -400,8 +410,6 @@ let g:copypath_copy_to_unnamed_register = 1
 
 " Ctrl-P: {{{
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-
 if has('unix') || has('mac')
 	let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 else
@@ -409,7 +417,7 @@ else
 endif
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll|keep|bak)$',
+  \ 'file': '\v\.(exe|so|dll|gem|keep|bak)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
 "}}}
