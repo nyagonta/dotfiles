@@ -103,7 +103,8 @@ filetype plugin on				" Enable filetype-specific plugins Enable plugin, indent a
 filetype plugin indent on
 
 " --- Set the color scheme ---
-colorscheme molokai
+colorscheme jellybeans
+"colorscheme molokai
 "colorscheme solarized
 set background=dark
 
@@ -173,27 +174,29 @@ set list " Enable by default"
 
 " --- status line ---
 set laststatus=2				" always show
-"set statusline=%<
-"set statusline+=%{hostname()}:
-"if winwidth(0) >= 130
-"	set statusline+=%F								" Full path
-"else
-"	set statusline+=%t								" Only file name
-"endif
-"set statusline+=\ 									" spcae x 1
-"set statusline+=[%n]								" Buffer number
-"set statusline+=%m%r%h%w							" Modified? Readonly? Help? Preview?
-"set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'}	" Encoding
-"set statusline+=%{(&bomb?'bom:':'')}				" Encoding2
-"set statusline+=%{&ff.']'}							" FileFormat (dos/unix..)
-"set statusline+=%y\ 								" FileType
-"set statusline+=%{fugitive#statusline()}			" Git branck name
-"set statusline+=%=									" Switch to the right side
-"set statusline+=\ \ 								" space x 2
-"set statusline+=[0x%02B]\ 							" Character under curor - Byte number in file
-"set statusline+=%1l/%L,%c							" Rownumber/total,Colnr
-"set statusline+=\ \ 								" space x 2
-"set statusline+=%P									" Top/bot
+if !exists('g:lightline')
+	set statusline=%<
+	set statusline+=%{hostname()}:
+	if winwidth(0) >= 130
+		set statusline+=%F								" Full path
+	else
+		set statusline+=%t								" Only file name
+	endif
+	set statusline+=\ 									" spcae x 1
+	set statusline+=[%n]								" Buffer number
+	set statusline+=%m%r%h%w							" Modified? Readonly? Help? Preview?
+	set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'}	" Encoding
+	set statusline+=%{(&bomb?'bom:':'')}				" Encoding2
+	set statusline+=%{&ff.']'}							" FileFormat (dos/unix..)
+	set statusline+=%y\ 								" FileType
+	set statusline+=%{fugitive#statusline()}			" Git branck name
+	set statusline+=%=									" Switch to the right side
+	set statusline+=\ \ 								" space x 2
+	set statusline+=[0x%02B]\ 							" Character under curor - Byte number in file
+	set statusline+=%1l/%L,%c							" Rownumber/total,Colnr
+	set statusline+=\ \ 								" space x 2
+	set statusline+=%P									" Top/bot
+endif
 
 " --- search / regexp ---
 set gdefault					" RegExp global by default
