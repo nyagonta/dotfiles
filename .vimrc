@@ -144,7 +144,7 @@ set noswapfile
 " --- UI ---
 set cursorline					" Highlight line under cursor. It helps with navigation.
 set number						" Enable line numbers.
-set report=0					" Show all changes.
+set report=2					" Threshold for reporting number of changed lines.
 set showmode					" Show mode in statusbar, not separately.
 set showcmd						" show (partial) command in the status line
 								"    this also shows visual selection info
@@ -173,27 +173,27 @@ set list " Enable by default"
 
 " --- status line ---
 set laststatus=2				" always show
-set statusline=%<
-set statusline+=%{hostname()}:
-if winwidth(0) >= 130
-	set statusline+=%F								" Full path
-else
-	set statusline+=%t								" Only file name
-endif
-set statusline+=\ 									" spcae x 1
-set statusline+=[%n]								" Buffer number
-set statusline+=%m%r%h%w							" Modified? Readonly? Help? Preview?
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'}	" Encoding
-set statusline+=%{(&bomb?'bom:':'')}				" Encoding2
-set statusline+=%{&ff.']'}							" FileFormat (dos/unix..)
-set statusline+=%y\ 								" FileType
-set statusline+=%{fugitive#statusline()}			" Git branck name
-set statusline+=%=									" Switch to the right side
-set statusline+=\ \ 								" space x 2
-set statusline+=[0x%02B]\ 							" Character under curor - Byte number in file
-set statusline+=%1l/%L,%c							" Rownumber/total,Colnr
-set statusline+=\ \ 								" space x 2
-set statusline+=%P									" Top/bot
+"set statusline=%<
+"set statusline+=%{hostname()}:
+"if winwidth(0) >= 130
+"	set statusline+=%F								" Full path
+"else
+"	set statusline+=%t								" Only file name
+"endif
+"set statusline+=\ 									" spcae x 1
+"set statusline+=[%n]								" Buffer number
+"set statusline+=%m%r%h%w							" Modified? Readonly? Help? Preview?
+"set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'}	" Encoding
+"set statusline+=%{(&bomb?'bom:':'')}				" Encoding2
+"set statusline+=%{&ff.']'}							" FileFormat (dos/unix..)
+"set statusline+=%y\ 								" FileType
+"set statusline+=%{fugitive#statusline()}			" Git branck name
+"set statusline+=%=									" Switch to the right side
+"set statusline+=\ \ 								" space x 2
+"set statusline+=[0x%02B]\ 							" Character under curor - Byte number in file
+"set statusline+=%1l/%L,%c							" Rownumber/total,Colnr
+"set statusline+=\ \ 								" space x 2
+"set statusline+=%P									" Top/bot
 
 " --- search / regexp ---
 set gdefault					" RegExp global by default
@@ -290,22 +290,6 @@ if has("cscope")
 endif
 " }}} cscope
 
-" edit .vimrc .gvimrc
-" @see <http://vim-users.jp/2009/09/hack74/>
-nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
-
-" cscope
-" @see <http://cscope.sourceforge.net/cscope_maps.vim>
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
 " Autocommands: "{{{
 
 " Startup time.
@@ -321,7 +305,7 @@ endif
 " auto reload vimrc when editing it
 augroup vimrc-reload-vimrc
 	autocmd!
-	autocmd bufwritepost $MYVIMRC nested source $MYVIMRC
+	autocmd BufWritePost $MYVIMRC nested source $MYVIMRC | set foldmethod=marker
 augroup END
 
 " スワップがあるときは常にRead-Onlyで開く設定
@@ -334,6 +318,11 @@ augroup END
 augroup vimrc-quickfix-post
 	autocmd!
 	autocmd QuickFixCmdPost * cwindow
+augroup END
+
+augroup vimrc-echo-filepath
+	autocmd!
+	autocmd WinEnter * execute "normal! 1\<C-g>"
 augroup END
 "}}}
 
@@ -389,6 +378,25 @@ xmap <Space>m <Plug>(quickhl-manual-this)
 nmap <Space>M <Plug>(quickhl-manual-reset)
 xmap <Space>M <Plug>(quickhl-manual-reset)
 
+" edit .vimrc .gvimrc
+" @see <http://vim-users.jp/2009/09/hack74/>
+nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
+
+" cscope
+" @see <http://cscope.sourceforge.net/cscope_maps.vim>
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+" display full path
+nnoremap <C-g> 1<C-g>
+
 " ctrlp
 "nmap <C-M> :CtrlPMRU<CR>
 " }}} map
@@ -426,7 +434,7 @@ let g:ctrlp_custom_ignore = {
 let g:lightline = {
       \ 'colorscheme': 'default',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'anzu' ], ['ctrlpmark'] ],
       \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'component_function': {
@@ -437,6 +445,7 @@ let g:lightline = {
       \   'fileencoding': 'LightlineFileencoding',
       \   'mode': 'LightlineMode',
       \   'ctrlpmark': 'CtrlPMark',
+      \   'anzu': 'anzu#search_status',
       \ },
       \ 'component_expand': {
       \   'syntastic': 'SyntasticStatuslineFlag',
