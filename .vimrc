@@ -39,7 +39,7 @@ if dein#load_state(s:dein_dir)
 
 	" Basic tools {{{
 	" Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-	call dein#add('Shougo/vimproc', {'build': 'make'})
+	call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 	" }}}
 
 	" plugins {{{
@@ -162,7 +162,11 @@ set nowrap						" Display long lines as just one line
 set cmdheight=1					" Height of the command bar
 
 set title						" enable setting title
-set titlestring=VIM:\ %-25.55F\ %a%r%m	" configure title to look like: Vim /path/to/file
+"| directory info (max 32 char)          | buff. no | filename | modified | Type | Row no.
+set titlestring=...
+set titlestring+=%{strpart(expand(\"%:p:h\"),stridx(expand(\"%:p:h\"),\"/\",strlen(expand(\"%:p:h\"))-32))}
+set titlestring+=%=														" Switch to the right side
+set titlestring+=%n.\ \ %{expand(\"%:t:r\")}\ %m\ %Y\ \ \ \ %l\ of\ %L
 set titlelen=70
 
 set noequalalways				" all windows not same size after split or close
@@ -237,7 +241,6 @@ set smartindent					" 新しい行を作ったときに高度な自動インデ�
 set smarttab					" insert tabs on the start of a line according to context
 set copyindent					" copy the previous indentation on autoindenting
 set preserveindent				" カレント行のインデント変更時に可能な限りインデント構造を維持する
-set showtabline=2				" Show Tabline
 
 " --- command completion ---
 set wildmenu					" wild char completion menu
