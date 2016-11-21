@@ -53,6 +53,7 @@ if dein#load_state(s:dein_dir)
 	call dein#add('kana/vim-smartinput')
 	call dein#add('kien/ctrlp.vim')
 	call dein#add('mattn/calendar-vim')
+	call dein#add('mtth/scratch.vim')
 	call dein#add('osyo-manga/vim-anzu')
 	call dein#add('roblillack/vim-bufferlist')
 	call dein#add('scrooloose/nerdtree')
@@ -65,20 +66,19 @@ if dein#load_state(s:dein_dir)
 	call dein#add('vim-scripts/copypath.vim')
 	call dein#add('vim-scripts/taglist.vim')
 	call dein#add('wesleyche/SrcExpl')
-	call dein#add('mtth/scratch.vim')
 	" }}}
 
 	" color schemes {{{
-	call dein#add('rodnaph/vim-color-schemes')
 	call dein#add('29decibel/codeschool-vim-theme')
 	call dein#add('altercation/vim-colors-solarized')
 	call dein#add('croaker/mustang-vim')
-	call dein#add('nanotech/jellybeans.vim')
-	call dein#add('tomasr/molokai')
-	call dein#add('vim-scripts/github-theme')
-	call dein#add('sjl/badwolf')
 	call dein#add('joshdick/onedark.vim')
 	call dein#add('junegunn/seoul256.vim')
+	call dein#add('nanotech/jellybeans.vim')
+	call dein#add('rodnaph/vim-color-schemes')
+	call dein#add('sjl/badwolf')
+	call dein#add('tomasr/molokai')
+	call dein#add('vim-scripts/github-theme')
 	"}}}
 
 	call dein#end()
@@ -251,8 +251,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip	" MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe	" Windows
 
 " --- diff ---
-set diffopt=filler				" Add vertical spaces to keep right
-								"   and left aligned.
+set diffopt=filler				" Add vertical spaces to keep right and left aligned.
 set diffopt+=iwhite				" Ignore whitespace changes.
 
 " --- folding ---
@@ -275,7 +274,7 @@ set timeoutlen=500				" timeout[ms] key sequence
 if has("path_extra")
 	set tags+=tags;
 endif
-"}}} tag
+"}}} ctags
 
 " cscope {{{
 if has("cscope")
