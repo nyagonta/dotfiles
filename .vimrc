@@ -2,7 +2,7 @@
 ""
 ""   File: .vimrc
 ""   Maintainer: nyagonta
-""   Last Change: 08-Nov-2016.
+""   Last Change: 24-Nov-2016.
 ""
 ""---------------------------------------------------------------------------
 
@@ -48,12 +48,14 @@ if dein#load_state(s:dein_dir)
 	call dein#add('Yggdroot/indentLine')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('bronson/vim-trailing-whitespace')
+	call dein#add('ctrlpvim/ctrlp.vim')
 	call dein#add('itchyny/lightline.vim')
 	call dein#add('jistr/vim-nerdtree-tabs')
 	call dein#add('kana/vim-smartinput')
-	call dein#add('kien/ctrlp.vim')
 	call dein#add('mattn/calendar-vim')
+	call dein#add('mattn/ctrlp-register') "CtrlP: register
 	call dein#add('mtth/scratch.vim')
+	call dein#add('nixprime/cpsm', {'build' : 'env PY3=ON ./install.sh'})
 	call dein#add('osyo-manga/vim-anzu')
 	call dein#add('roblillack/vim-bufferlist')
 	call dein#add('scrooloose/nerdtree')
@@ -72,6 +74,8 @@ if dein#load_state(s:dein_dir)
 	call dein#add('29decibel/codeschool-vim-theme')
 	call dein#add('altercation/vim-colors-solarized')
 	call dein#add('croaker/mustang-vim')
+	call dein#add('gosukiwi/vim-atom-dark')
+	call dein#add('jonathanfilip/vim-lucius')
 	call dein#add('joshdick/onedark.vim')
 	call dein#add('junegunn/seoul256.vim')
 	call dein#add('nanotech/jellybeans.vim')
@@ -104,6 +108,9 @@ filetype plugin indent on
 
 " --- Set the color scheme ---
 colorscheme jellybeans
+"colorscheme atom-dark
+"colorscheme lucius
+"LuciusBlackLowContrast
 "colorscheme molokai
 "colorscheme solarized
 set background=dark
@@ -403,7 +410,16 @@ nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-g> 1<C-g>
 
 " ctrlp
-"nmap <C-M> :CtrlPMRU<CR>
+nnoremap s <Nop>
+nnoremap sa :<C-u>CtrlP<Space>
+nnoremap sb :<C-u>CtrlPBuffer<CR>
+nnoremap sd :<C-u>CtrlPDir<CR>
+nnoremap sf :<C-u>CtrlP<CR>
+nnoremap sl :<C-u>CtrlPLine<CR>
+nnoremap sm :<C-u>CtrlPMRUFiles<CR>
+nnoremap sq :<C-u>CtrlPQuickfix<CR>
+nnoremap ss :<C-u>CtrlPMixed<CR>
+nnoremap st :<C-u>CtrlPTag<CR>
 " }}} map
 
 " Command: {{{
@@ -422,6 +438,7 @@ let g:copypath_copy_to_unnamed_register = 1
 " }}}
 
 " Ctrl-P: {{{
+let g:ctrlp_lazy_update = 1
 let g:ctrlp_working_path_mode = 'ra'
 if has('unix') || has('mac')
 	let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
@@ -433,6 +450,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|gem|keep|bak)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 "}}}
 
 " lightline: {{{
