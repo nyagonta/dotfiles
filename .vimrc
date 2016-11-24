@@ -419,6 +419,7 @@ nnoremap sl :<C-u>CtrlPLine<CR>
 nnoremap sm :<C-u>CtrlPMRUFiles<CR>
 nnoremap sq :<C-u>CtrlPQuickfix<CR>
 nnoremap ss :<C-u>CtrlPMixed<CR>
+nnoremap sr :<C-u>CtrlPRegister<CR>
 nnoremap st :<C-u>CtrlPTag<CR>
 " }}} map
 
