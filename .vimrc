@@ -55,7 +55,7 @@ if dein#load_state(s:dein_dir)
 	call dein#add('mattn/calendar-vim')
 	call dein#add('mattn/ctrlp-register') "CtrlP: register
 	call dein#add('mtth/scratch.vim')
-	call dein#add('nixprime/cpsm', {'build' : 'env PY3=ON ./install.sh'})
+	call dein#add('nixprime/cpsm', {'build': 'env PY3=ON ./install.sh'})
 	call dein#add('osyo-manga/vim-anzu')
 	call dein#add('roblillack/vim-bufferlist')
 	call dein#add('scrooloose/nerdtree')
@@ -67,6 +67,7 @@ if dein#load_state(s:dein_dir)
 	call dein#add('vim-jp/vimdoc-ja')
 	call dein#add('vim-scripts/copypath.vim')
 	call dein#add('vim-scripts/taglist.vim')
+	call dein#add('vim-syntastic/syntastic')
 	call dein#add('wesleyche/SrcExpl')
 	" }}}
 
@@ -619,6 +620,13 @@ let g:BufferListMaxWidth = 30
 hi BufferSelected guifg=green
 hi BufferNormal term=NONE ctermfg=black ctermbg=darkcyan cterm=NONE
 "}}}
+
+" syntastic: {{{
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" }}}
 "}}}
 
 " vim: set ts=4 sts=4 sw=4 tw=0
