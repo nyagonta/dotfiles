@@ -228,7 +228,7 @@ set nolinebreak					" Don't break words
 set formatoptions+=mM			" automatic formating (this is useful for japanese text)
 set undolevels=2000				" more undo
 set textwidth=0					" 自動改行をさせない
-set clipboard=unnamed			" yank to the system register (*) by default
+set clipboard^=unnamedplus		" yank to the clipboard register (+)
 set nrformats=alpha,octal,hex	" <C-a> <C-x> で英字も増減させる
 set virtualedit=block			" Allow virtual editing in block mode
 set pumheight=10				" Don't show more than 10 items in the popup menu
@@ -349,6 +349,7 @@ nnoremap - <C-x>
 nmap <F1> <Esc>
 map! <F1> <Esc>
 
+map <F2> :!cscope -b -R<CR>
 map <F3> :grep -r <C-R><C-W> .
 
 " BufferListの表示 (bufferlist.vim)
