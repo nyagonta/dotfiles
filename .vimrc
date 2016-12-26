@@ -84,6 +84,14 @@ if dein#load_state(s:dein_dir)
 	call dein#add('sjl/badwolf')
 	call dein#add('tomasr/molokai')
 	call dein#add('vim-scripts/github-theme')
+	call dein#add('morhetz/gruvbox')
+	call dein#add('w0ng/vim-hybrid')
+	call dein#add('romainl/Apprentice')
+	call dein#add('jacoborus/tender.vim')
+	call dein#add('freeo/vim-kalisi')
+	call dein#add('jeetsukumaran/vim-nefertiti')
+	call dein#add('KKPMW/moonshine-vim')
+	call dein#add('reedes/vim-colors-pencil')
 	"}}}
 
 	call dein#end()
@@ -108,13 +116,14 @@ filetype plugin on				" Enable filetype-specific plugins Enable plugin, indent a
 filetype plugin indent on
 
 " --- Set the color scheme ---
+set background=dark
+"colorscheme tender
 colorscheme jellybeans
 "colorscheme atom-dark
 "colorscheme lucius
 "LuciusBlackLowContrast
 "colorscheme molokai
 "colorscheme solarized
-set background=dark
 
 " --- Encoding ---
 set encoding=utf-8
@@ -130,7 +139,7 @@ set helplang=ja,en
 set shortmess+=I				" hide the launch screen
 set mouse=a						" Enable mouse support.
 
-set spelllang=en,cjk
+set spelllang^=cjk
 
 " --- performance / buffer ---
 set hidden						" can put buffer to the background without writing
@@ -228,7 +237,7 @@ set nolinebreak					" Don't break words
 set formatoptions+=mM			" automatic formating (this is useful for japanese text)
 set undolevels=2000				" more undo
 set textwidth=0					" 自動改行をさせない
-set clipboard^=unnamedplus		" yank to the clipboard register (+)
+set clipboard^=unnamedplus		" yank to the system register (*) by default
 set nrformats=alpha,octal,hex	" <C-a> <C-x> で英字も増減させる
 set virtualedit=block			" Allow virtual editing in block mode
 set pumheight=10				" Don't show more than 10 items in the popup menu
@@ -575,14 +584,14 @@ function! TagbarStatusFunc(current, sort, fname, ...) abort
   return lightline#statusline(0)
 endfunction
 
-augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp call s:syntastic()
-augroup END
-function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
-endfunction
+"augroup AutoSyntastic
+"  autocmd!
+"  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+"augroup END
+"function! s:syntastic()
+"  SyntasticCheck
+"  call lightline#update()
+"endfunction
 
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
@@ -623,10 +632,12 @@ hi BufferNormal term=NONE ctermfg=black ctermbg=darkcyan cterm=NONE
 "}}}
 
 " syntastic: {{{
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" * manual check -> :SyntasticCheck
+" * display the error window -> :Errors 
+let g:syntastic_mode_map = { 'mode': 'passive' }
+let g:syntastic_always_populate_loc_list = 0	" automatically load errors into the location list
+let g:syntastic_auto_loc_list = 0				" automatically opened when errors are detected
+let g:syntastic_check_on_wq = 0					" skip checks when you save the file
 " }}}
 "}}}
 
